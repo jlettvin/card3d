@@ -10,3 +10,9 @@ card3d
 The goal is to navigate through this index card space (mouse/touchscreen),
 to enable/disable various forces, causing auto-reorganizing on similarities,
 and to add/delete cards rapidly.
+
+Dict is used to simplify control data sharing in the app.
+
+Banner is used in the Makefile, and may be used for monitoring.
+
+Similar will be used to enable fuzzy keyword recognition.
