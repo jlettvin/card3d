@@ -3,6 +3,7 @@
 from sys import (path)
 path.append('Dict')
 
+from urllib import (unquote)
 from visual import (scene, frame, rate, label, vector, exit)
 from select import (select)
 from socket import (socket, AF_INET, SOCK_STREAM)
@@ -38,14 +39,15 @@ class Card(label):
                 else:
                     self.velocity.y = 0.0
                     self.y = self.radius
-                self.report()
             else:
                 self.velocity.y = (
                         self.velocity.y - Card.constant.g * Card.constant.dt)
+            self.report()
 
 def getCards(f, configname = 'card3d.cfg'):
     config = ConfigParser()
     config.read(configname)
+    config.card3dname = configname
     cards = {}
     dct = Dict(
             velocity=vector(0,-1,0),
@@ -63,58 +65,73 @@ def getCards(f, configname = 'card3d.cfg'):
         (dct.pos, dct.card, dct.text) = ((num % 4, 4, num % 4), dig, line)
         dct.radius = 1
         cards[key] = Card(dct)
-    return cards
+    return (config, cards)
 
-def getmessage(cards, s):
+def makeHTML(address, data, cards):
+    buf = '<html><body><h1>%s</h1><dl>' % (str(address))
+    for name, card in cards.iteritems():
+        buf += '<dt>%s</dt><dd>%s</dd>' % (name, card.text)
+    buf += '</dl></body></html>'
+    return buf
+
+def getmessage(config, cards, s):
+    change = False
     msg = ""
+    cardno = None
+    dcd = u""
     rcv, snd, exc = select([s,], [], [], 0)
     if rcv != []:
         client, address = s.accept() 
         msg = data = client.recv(size) 
-        abc = list(msg.partition('/?'))
-        if abc[1]:
-            msg = abc[2]
-        abc = list(msg.partition(' '))
-        if abc[1]:
+        good = True
+        print msg
+        abc = list(msg.partition('?'))
+        if not abc[1]:
+            good = False
+        if good:
+            abc = list(abc[2].partition(' '))
+            if not abc[1]:
+                good = False
+        if good:
             msg = abc[0]
+            dcd = unquote(msg).decode('utf8')
+            abc=[token.strip() for token in dcd.partition('=')]
+            cardno, ignore, msg = abc
+            msg = msg.partition('\n')[0]
 
-        buf = '<html><body><h1>%s</h1><dl>' % (str(address))
-        for name, card in cards.iteritems():
-            buf += '<dt>%s</dt><dd>%s</dd>' % (name, card.text)
-        buf += '</dl></body></html>'
+        #print 'decoded: '+dcd
+        #abc=[token.strip() for token in dcd.partition('=')]
+        if cardno and cardno in cards.keys():
+            print cardno, msg
+                #print 'found'
+            cards[cardno].text = cards[cardno].msg = msg
+            config.set(cardno, 'text', msg)
+            change = True
+
+        buf = makeHTML(address, data, cards)
+
         client.send(buf)
         client.close()
-    return msg
+    return (change, msg)
 
-def main(cards, f, s):
+def main(config, cards, f, s):
     while True:
-        msg = getmessage(cards, s)
-        cardno = None
-        abc=list(msg.partition('_'))
-        if abc[1]:
-            cardno, _, msg = abc
-            abc = list(msg.partition("\n"))
-            if abc[1]:
-                msg = abc[0]
-        else:
-            msg = ""
+        (change, msg) = getmessage(config, cards, s)
+        if change:
+            with open(config.card3dname, 'w') as target:
+                config.write(target)
+                #print "wrote: "+config.card3dname
+
         rate (100)
         for name, card in cards.iteritems():
-            text = ""
-            if cardno and name == cardno:
-                print '%s(%d): [%s]' % (cardno, len(cards), msg)
-                text = msg
-                config.set(cardno, 'text', text)
-                with open(configname, 'w') as target:
-                    config.write(target)
-            card(text)
+            card()
 
 if __name__ == "__main__":
 
     # Initialize the web interface.
     (host, port, backlog, size) = ('', 50000, 5, 1024)
     s = socket(AF_INET, SOCK_STREAM) 
-    s.bind((host,port)) 
+    s.bind((host, port)) 
     s.listen(backlog) 
 
     # Initialize the visual python scene.
@@ -123,7 +140,7 @@ if __name__ == "__main__":
     f = frame()
 
     # Initialize the card contents from the configuration file.
-    cards = getCards(f, 'card3d.cfg')
+    (config, cards) = getCards(f, 'card3d.cfg')
 
     # Define the spinning functions
     def spinLeft(f):
@@ -169,4 +186,4 @@ if __name__ == "__main__":
     scene.bind('keydown', keyInput)
 
     # Run the card3d main loop.
-    main(cards, f, s)
+    main(config, cards, f, s)
