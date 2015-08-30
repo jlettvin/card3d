@@ -65,7 +65,7 @@ def getCards(f, configname = 'card3d.cfg'):
         cards[key] = Card(dct)
     return cards
 
-def getmessage(s):
+def getmessage(cards, s):
     msg = ""
     rcv, snd, exc = select([s,], [], [], 0)
     if rcv != []:
@@ -77,14 +77,18 @@ def getmessage(s):
         abc = list(msg.partition(' '))
         if abc[1]:
             msg = abc[0]
-        if msg: 
-            client.send(msg)
+
+        buf = '<html><body><h1>%s</h1><dl>' % (str(address))
+        for name, card in cards.iteritems():
+            buf += '<dt>%s</dt><dd>%s</dd>' % (name, card.text)
+        buf += '</dl></body></html>'
+        client.send(buf)
         client.close()
     return msg
 
 def main(cards, f, s):
     while True:
-        msg = getmessage(s)
+        msg = getmessage(cards, s)
         cardno = None
         abc=list(msg.partition('_'))
         if abc[1]:
