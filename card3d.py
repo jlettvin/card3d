@@ -127,28 +127,22 @@ if __name__ == "__main__":
 
     # Define the spinning functions
     def spinLeft(f):
-        f.axis = (1, 0, 0)
-        f.rotate(angle=0.1)
+        f.rotate(angle = +0.1, axis = (1, 0, 0))
 
     def spinRight(f):
-        f.axis = (1, 0, 0)
-        f.rotate(angle=0.1)
+        f.rotate(angle = -0.1, axis = (1, 0, 0))
 
     def spinForward(f):
-        f.axis = (0, 1, 0)
-        f.rotate(angle=0.1)
+        f.rotate(angle = +0.1, axis = (0, 1, 0))
 
     def spinBackward(f):
-        f.axis = (0, 1, 0)
-        f.rotate(angle=0.1)
+        f.rotate(angle = -0.1, axis = (0, 1, 0))
 
     def spinUp(f):
-        f.axis = (0, 0, 1)
-        f.rotate(angle=0.1)
+        f.rotate(angle = +0.1, axis = (0, 0, 1))
 
     def spinDown(f):
-        f.axis = (0, 0, 1)
-        f.rotate(angle=0.1)
+        f.rotate(angle = -0.1, axis = (0, 0, 1))
 
     # Prepare a dictionary for keyboard function binding.
     spin = Dict(
