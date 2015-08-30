@@ -4,3 +4,6 @@
 [submodule "Similar"]
 	path = Similar
 	url = https://github.com/jlettvin/Similar
+[submodule "Banner"]
+	path = Banner
+	url = https://github.com/jlettvin/Banner
