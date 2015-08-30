@@ -1,3 +1,6 @@
 [submodule "Dict"]
 	path = Dict
 	url = https://github.com/jlettvin/Dict
+[submodule "Similar"]
+	path = Similar
+	url = https://github.com/jlettvin/Similar
