@@ -20,3 +20,6 @@ Similar will be used to enable fuzzy keyword recognition.
 Run card3d.py to display cards stored in card3d.cfg.
 
 Browse localhost:50000/?card2_Opportunity to change card2 text to Opportunity.
+
+Requirements:
+* visual python
