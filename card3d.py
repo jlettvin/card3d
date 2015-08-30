@@ -12,14 +12,14 @@ from Dict import (Dict)
 class Card(label):
     cardno = 1
 
-    def __init__(self, **kw):
-        super(Card, self).__init__(**kw)
-        (self.g, self.dt) = (kw.get('g', 9.8), kw.get('dt', 0.01))
-        self.msg = kw.get('text', "anonymous")
-        self.velocity = kw.get('velocity', vector(0,-1,0))
-        (self.dy, self.bounce, self.card) = (0, 0, Card.cardno)
-        self.fmt = "card%d: %%s" % (self.card)
+    def __init__(self, dct):
+        super(Card, self).__init__(**dct.__dict__)
+        (self.g, self.dt, self.text) = (dct.g, dct.dt, dct.text)
+        (self.velocity, self.card) = (dct.velocity, dct.card)
+        (self.msg) = (dct.text)
         Card.cardno += 1
+        (self.dy, self.bounce) = (0, 0)
+        self.fmt = "card%d: %%s" % (self.card)
         self.report()
 
     def report(self):
@@ -47,14 +47,22 @@ if __name__ == "__main__":
     config.read(configname)
     (cards, f) = ({}, frame())
     f.axis = (0,1,0)
-    for num, (key, val) in enumerate(config._sections.iteritems()):
-        line = val['text']
-        cards[key] = Card(
-            pos=(num % 4, 4, num % 4), radius=1,
-            dt=0.01, velocity=vector(0,-1,0),
+    dct = Dict(
+            g=9.8, dt=0.01, velocity=vector(0,-1,0),
             color=(1,1,1), background=(0.25,0.25,0.25), opacity=0.2,
-            keep=1.0, card=num, text=line, frame=f,
+            keep=1.0, frame=f,
             visible=True)
+    for num, (key, val) in enumerate(config._sections.iteritems()):
+        if not key.startswith('card'):
+            continue
+        dig = key[4:]
+        if not dig.isdigit():
+            continue
+        dig = int(dig)
+        line = val['text']
+        (dct.pos, dct.card, dct.text) = ((num % 4, 4, num % 4), dig, line)
+        dct.radius = 1
+        cards[key] = Card(dct)
 
     (host, port, backlog, size) = ('', 50000, 5, 1024)
     s = socket(AF_INET, SOCK_STREAM) 
