@@ -1,10 +1,13 @@
 #!/usr/bin/env python
 
-from visual import *
-import os
-import select
-import socket 
-import ConfigParser
+from sys import (path)
+path.append('Dict')
+
+from visual import (label, frame, vector, rate)
+from select import (select)
+from socket import (socket, AF_INET, SOCK_STREAM)
+from ConfigParser import (ConfigParser)
+from Dict import (Dict)
 
 class Card(label):
     cardno = 1
@@ -40,7 +43,7 @@ class Card(label):
 
 if __name__ == "__main__":
     configname = 'card3d.cfg'
-    config = ConfigParser.ConfigParser()
+    config = ConfigParser()
     config.read(configname)
     (cards, f) = ({}, frame())
     f.axis = (0,1,0)
@@ -54,13 +57,13 @@ if __name__ == "__main__":
             visible=True)
 
     (host, port, backlog, size) = ('', 50000, 5, 1024)
-    s = socket.socket(socket.AF_INET, socket.SOCK_STREAM) 
+    s = socket(AF_INET, SOCK_STREAM) 
     s.bind((host,port)) 
     s.listen(backlog) 
 
     def getmessage():
         msg = ""
-        rcv, snd, exc = select.select([s,], [], [], 0)
+        rcv, snd, exc = select([s,], [], [], 0)
         if rcv != []:
             client, address = s.accept() 
             msg = data = client.recv(size) 
