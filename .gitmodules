@@ -1,0 +1,3 @@
+[submodule "Dict"]
+	path = Dict
+	url = https://github.com/jlettvin/Dict
