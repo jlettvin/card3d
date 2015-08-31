@@ -22,8 +22,11 @@ var titles = [];
 var parity = 0;
 
 var legaleze =
-  'Copyright(c) 2012-2015 Jonathan D. Lettvin, All Rights Reserved.<br/>\n' +
-  'License: GPLv3 http://www.gnu.org/licenses/gpl-3.0.en.html\n';
+  '<small><small><small>\n' +
+  'Copyright(c) 2015 Jonathan D. Lettvin, All Rights Reserved.<br/>\n' +
+  'License: GPLv3 http://www.gnu.org/licenses/gpl-3.0.en.html\n' +
+  '</small></small></small>'
+  ;
 
 function tag(name, attenuate, atts) {
   var level = ['#FFFFFF', '#DDDDDD', '#BBBBBB', '#999999'];
@@ -84,18 +87,17 @@ function show(text) { document.write(text); }
   <script>show(tag('td', 0, ''))</script>Edit Card Deck</td>
   <script>show(tag('td', 0, ''))</script>science</td>
 </tr></table>
-<b>
-  <input type="submit" value="OK"/> button always sends all cards.<br/>
-  <select name="editor">
-    <option value="html" selected>HTML</option>
-    <option value="emacs">emacs</option>
-    <option value="vi">vi</option>
-  </select>
-  current textarea editor. 
-</b>
+<input type="submit" value="OK"/> button always sends all cards.<br/>
+<select name="editor">
+  <option value="html" selected>HTML</option>
+  <option value="emacs">emacs</option>
+  <option value="vi">vi</option>
+</select>
+current textarea editor. 
 
 <hr/><!-- ***************************************************************** -->
 <script>
+  show('<table><tr><td>\n');
   show(newcard());
   show(card('Head', 'Elements of a Scientific Paper'));
   show(card('Abstract', 'What I did in a nutshell?'));
@@ -106,6 +108,7 @@ function show(text) { document.write(text); }
   show(card('Acknowledgments', 'Who helped me?'));
   show(card('Literature', 'To whose work did I refer?'));
   show(card('Appendices', 'Supporting information\nas mini-papers.'));
+  show('</td></tr></table>\n');
   show(legaleze);
   //document.write(''.concat(background));
   // document.write(''.concat(titles));
