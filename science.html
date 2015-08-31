@@ -82,6 +82,27 @@ function newcard() {
 
 function show(text) { document.write(text); }
 
+function header(title) {
+  var buf = [
+'<table width = "100%"><tr>',
+'  <td>card3d&trade;</td>',
+tag('td', 0, ''), 'Edit Card Deck</td>',
+'</tr><tr>'+
+'<td><input type="submit" value="OK"/> all cards</td>',
+'<td>editor ',
+'<select name="editor">',
+'  <option value="html" selected>HTML</option>',
+'  <option value="emacs">emacs</option>',
+'  <option value="vi">vi</option>',
+'</select>',
+'</td>',
+'</tr><tr>',
+tag('td', 0, 'colspan="2"'), '[', title, ']</td>',
+'</tr></table>'
+].join("\n");
+  return buf;
+}
+
     </script>
   </head>
 <!-- ********************************************************************** -->
@@ -91,24 +112,10 @@ function show(text) { document.write(text); }
 <!-- ********************************************************************** -->
 
 <script type="text/javascript">
-  show([
-'<table><tr>',
-'  <td>card3d&trade;</td>',
-tag('td', 0, ''), 'Edit Card Deck</td></tr><tr>',
-tag('td', 0, 'colspan="2"'), '[science]</td>',
-'</tr></table>',
-'<input type="submit" value="OK"/> all cards',
-'&nbsp;&nbsp;',
-'editor ',
-'<select name="editor">',
-'  <option value="html" selected>HTML</option>',
-'  <option value="emacs">emacs</option>',
-'  <option value="vi">vi</option>',
-'</select>'
-      ].join("\n"));
 
 //*****************************************************************************
   show('<table><tr><td>\n');
+  show(header('science'));
 //*****************************************************************************
   show(newcard());
 //*****************************************************************************
@@ -158,10 +165,10 @@ Supporting information
 as mini-papers.
 */})));
 //*****************************************************************************
+  show('</td></tr><tr><td>' + legalese);
   show('</td></tr></table>\n');
 
 //*****************************************************************************
-  show(legalese);
 </script>
 
     </form>
