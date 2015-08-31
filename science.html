@@ -15,7 +15,7 @@ td, th {
     border: 1px solid black;
 }
     </style>
-    <script>
+    <script type="text/javascript">
 
 var titles = [];
 
@@ -33,7 +33,6 @@ function tag(name, attenuate, atts) {
   if (attenuate < 0 || attenuate > 3 ) attenuate = 0;
   var buf = '<' + name + ' bgcolor="' + level[attenuate] + '" ' + atts + ">";
   return buf;
-  //return level[attenuate];
 }
 
 function comment(text) {
@@ -79,13 +78,13 @@ function show(text) { document.write(text); }
   </head>
 <!-- ********************************************************************** -->
   <body bgcolor="#DDDDDD">
-  <script>show(comment(legaleze));</script>
+  <script type="text/javascript">show(comment(legaleze));</script>
     <form action="localhost:50000" method="get">
 <!-- ********************************************************************** -->
 <table><tr>
   <td>card3d</td>
-  <script>show(tag('td', 0, ''))</script>Edit Card Deck</td>
-  <script>show(tag('td', 0, ''))</script>science</td>
+  <script type="text/javascript">show(tag('td', 0, ''))</script>Edit Card Deck</td>
+  <script type="text/javascript">show(tag('td', 0, ''))</script>science</td>
 </tr></table>
 <input type="submit" value="OK"/> button always sends all cards.<br/>
 <select name="editor">
@@ -96,22 +95,47 @@ function show(text) { document.write(text); }
 current textarea editor. 
 
 <hr/><!-- ***************************************************************** -->
-<script>
+<script type="text/javascript">
   show('<table><tr><td>\n');
   show(newcard());
-  show(card('Head', 'Elements of a Scientific Paper'));
-  show(card('Abstract', 'What I did in a nutshell?'));
-  show(card('Introduction', 'What is the problem?'));
-  show(card('Materials and Methods', 'How did I solve the problem?'));
-  show(card('Results', 'What did I find out?'));
-  show(card('Discussion', 'What does it mean?'));
-  show(card('Acknowledgments', 'Who helped me?'));
-  show(card('Literature', 'To whose work did I refer?'));
-  show(card('Appendices', 'Supporting information\nas mini-papers.'));
+  show(card('Head',
+        [
+          'Elements of a Scientific Paper'
+        ].join("\n")));
+  show(card('Abstract',
+        [
+          'What I did in a nutshell?'
+        ].join("\n")));
+  show(card('Introduction',
+        [
+          'What is the problem?'
+        ].join("\n")));
+  show(card('Materials and Methods',
+        [
+          'How did I solve the problem?'
+        ].join("\n")));
+  show(card('Results',
+        [
+          'What did I find out?'
+        ].join("\n")));
+  show(card('Discussion',
+        [
+          'What does it mean?'
+        ].join("\n")));
+  show(card('Acknowledgments',
+        [
+          'Who helped me?'
+        ].join("\n")));
+  show(card('Literature',
+        [
+          'To whose work did I refer?'
+        ].join("\n")));
+  show(card('Appendices',
+        [
+          'Supporting information\nas mini-papers.'
+        ].join("\n")));
   show('</td></tr></table>\n');
   show(legaleze);
-  //document.write(''.concat(background));
-  // document.write(''.concat(titles));
 </script>
 
     </form>
