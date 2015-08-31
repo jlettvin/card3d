@@ -81,21 +81,24 @@ function show(text) { document.write(text); }
   <script type="text/javascript">show(comment(legaleze));</script>
     <form action="localhost:50000" method="get">
 <!-- ********************************************************************** -->
-<table><tr>
-  <td>card3d</td>
-  <script type="text/javascript">show(tag('td', 0, ''))</script>Edit Card Deck</td>
-  <script type="text/javascript">show(tag('td', 0, ''))</script>science</td>
-</tr></table>
-<input type="submit" value="OK"/> button always sends all cards.<br/>
-<select name="editor">
-  <option value="html" selected>HTML</option>
-  <option value="emacs">emacs</option>
-  <option value="vi">vi</option>
-</select>
-current textarea editor. 
 
-<hr/><!-- ***************************************************************** -->
 <script type="text/javascript">
+  show(
+      [
+'<table><tr>',
+'  <td>card3d</td>',
+tag('td', 0, ''), 'Edit Card Deck</td>',
+tag('td', 0, ''), 'science</td>',
+'</tr></table>',
+'<input type="submit" value="OK"/> always sends all cards.<br/>',
+'<select name="editor">',
+'  <option value="html" selected>HTML</option>',
+'  <option value="emacs">emacs</option>',
+'  <option value="vi">vi</option>',
+'</select>',
+'current textarea editor. '
+      ].join("\n"));
+
 //*****************************************************************************
   show('<table><tr><td>\n');
 //*****************************************************************************
