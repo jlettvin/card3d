@@ -21,16 +21,24 @@ var titles = [];
 
 var parity = 0;
 
-var legaleze =
-  '<small><small><small>\n' +
-  'Copyright(c) 2015 Jonathan D. Lettvin, All Rights Reserved.<br/>\n' +
-  'License: GPLv3 http://www.gnu.org/licenses/gpl-3.0.en.html\n' +
+var legalese = [
+  '<small><small><small>\n',
+  'Copyright(c) 2015 Jonathan D. Lettvin, All Rights Reserved.<br/>\n',
+  'License: GPLv3 http://www.gnu.org/licenses/gpl-3.0.en.html\n',
   '</small></small></small>'
+  ].join("\n")
   ;
+
+function here(f) {
+  return f.toString().
+      replace(/^[^\/]+\/\*!?/, '').
+      replace(/\*\/[^\/]+$/, '');
+}
 
 function tag(name, attenuate, atts) {
   var level = ['#FFFFFF', '#DDDDDD', '#BBBBBB', '#999999'];
   if (attenuate < 0 || attenuate > 3 ) attenuate = 0;
+  //var buf ''.concat('<', name, ' bgcolor="', level[attenuate], '" ', atts, ">");
   var buf = '<' + name + ' bgcolor="' + level[attenuate] + '" ' + atts + ">";
   return buf;
 }
@@ -78,25 +86,25 @@ function show(text) { document.write(text); }
   </head>
 <!-- ********************************************************************** -->
   <body bgcolor="#DDDDDD">
-  <script type="text/javascript">show(comment(legaleze));</script>
+  <script type="text/javascript">show(comment(legalese));</script>
     <form action="localhost:50000" method="get">
 <!-- ********************************************************************** -->
 
 <script type="text/javascript">
-  show(
-      [
+  show([
 '<table><tr>',
-'  <td>card3d</td>',
-tag('td', 0, ''), 'Edit Card Deck</td>',
-tag('td', 0, ''), 'science</td>',
+'  <td>card3d&trade;</td>',
+tag('td', 0, ''), 'Edit Card Deck</td></tr><tr>',
+tag('td', 0, 'colspan="2"'), '[science]</td>',
 '</tr></table>',
-'<input type="submit" value="OK"/> always sends all cards.<br/>',
+'<input type="submit" value="OK"/> all cards',
+'&nbsp;&nbsp;',
+'editor ',
 '<select name="editor">',
 '  <option value="html" selected>HTML</option>',
 '  <option value="emacs">emacs</option>',
 '  <option value="vi">vi</option>',
-'</select>',
-'current textarea editor. '
+'</select>'
       ].join("\n"));
 
 //*****************************************************************************
@@ -105,63 +113,55 @@ tag('td', 0, ''), 'science</td>',
   show(newcard());
 //*****************************************************************************
   show(card(
-'Head',
-        [
-'Elements of a Scientific Paper'
-        ].join("\n")));
+'Head', here(function() {/*!
+Elements of a Scientific Paper
+*/})));
 //*****************************************************************************
   show(card(
-'Abstract',
-        [
-'What I did in a nutshell?'
-        ].join("\n")));
+'Abstract', here(function() {/*!
+What I did in a nutshell?
+*/})));
 //*****************************************************************************
   show(card(
-'Introduction',
-        [
-'What is the problem?'
-        ].join("\n")));
+'Introduction', here(function() {/*!
+What is the problem?
+*/})));
 //*****************************************************************************
   show(card(
-'Materials and Methods',
-        [
-'How did I solve the problem?'
-        ].join("\n")));
+'Materials and Methods', here(function() {/*!
+How did I solve the problem?
+*/})));
 //*****************************************************************************
   show(card(
-'Results',
-        [
-'What did I find out?'
-        ].join("\n")));
+'Results', here(function() {/*!
+What did I find out?
+*/})));
 //*****************************************************************************
   show(card(
-'Discussion',
-        [
-'What does it mean?'
-        ].join("\n")));
+'Discussion', here(function() {/*!
+What does it mean?
+*/})));
 //*****************************************************************************
   show(card(
-'Acknowledgments',
-        [
-'Who helped me?'
-        ].join("\n")));
+'Acknowledgments', here(function() {/*!
+Who helped me?
+*/})));
 //*****************************************************************************
   show(card(
-'Literature',
-        [
-'To whose work did I refer?'
-        ].join("\n")));
+'Literature', here(function() {/*!
+To whose work did I refer?
+*/})));
 //*****************************************************************************
   show(card(
-'Appendices',
-        [
-'Supporting information\nas mini-papers.'
-        ].join("\n")));
+'Appendices', here(function() {/*!
+Supporting information
+as mini-papers.
+*/})));
 //*****************************************************************************
   show('</td></tr></table>\n');
 
 //*****************************************************************************
-  show(legaleze);
+  show(legalese);
 </script>
 
     </form>
