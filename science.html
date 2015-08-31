@@ -19,57 +19,54 @@ td, th {
 
 var titles = [];
 
-var background = ['#DDDDDD', '#BBBBBB'];
-
 var parity = 0;
 
 var legaleze =
   'Copyright(c) 2012-2015 Jonathan D. Lettvin, All Rights Reserved.<br/>\n' +
   'License: GPLv3 http://www.gnu.org/licenses/gpl-3.0.en.html\n';
 
+function tag(name, attenuate, atts) {
+  var level = ['#FFFFFF', '#DDDDDD', '#BBBBBB', '#999999'];
+  if (attenuate < 0 || attenuate > 3 ) attenuate = 0;
+  var buf = '<' + name + ' bgcolor="' + level[attenuate] + '" ' + atts + ">";
+  return buf;
+  //return level[attenuate];
+}
+
 function comment(text) {
   var buf = '<!-- ' + text + ' -->\n';
   return buf;
 }
 
-function card_head(title, text) {
+function card_head(title, text, identity) {
   var buf =
     comment(title) +
     '<td>\n' +
+    '<input type="submit" value="OK"/>\n' + identity + '<br/>' +
     '<textarea id="[' + title + ']">' + text + '</textarea>\n' +
-    '</td>\n';
-  return buf;
-}
-
-function card_tail(identity) {
-  var buf =
-    '<input type="submit" value="OK"/>\n' +
-    identity +
-    '<td>\n' +
-    '<!-- ************************************************************* -->\n';
+    '</td>\n'
+    ;
   return buf;
 }
 
 function card(title, text) {
   titles.push(title);
   parity = parity ^ 1;
+  var identity = '<b>[' + title + ']</b>';
   var buf =
-    '<table border="1" width="100%" bgcolor="' + background[parity] + '"><tr><td>\n' +
-    '<table><tr>\n' +
-    card_head(title, text) +
-    card_tail('<b>[' + title + ']</b>') +
-    '</tr></table></td></tr></table>\n';
+    tag('table', parity+1, 'border="1" width="100%"') + '<tr>\n' +
+    card_head(title, text, identity) +
+    '</tr></table>\n';
    return buf;
 }
 
 function newcard() {
+  parity = parity ^ 1;
+  var identity = '<b>[</b><input type="text" value="{new}"></input><b>]</b>';
   var buf =
-    '<table border="1" width="100%"><tr><td>\n' +
-    '<table><tr>\n' +
-    card_head('__', '') +
-    card_tail('<b>[</b><input type="text" value="{new card}"></input><b>]</b>') +
-    '</tr></table>\n' +
-    '</td></tr></table>\n';
+    tag('table', parity+1, 'border="1" width="100%"') + '<tr>\n' +
+    card_head('__', '', identity);
+    '</tr></table>\n';
   return buf;
 }
 
@@ -78,11 +75,15 @@ function show(text) { document.write(text); }
     </script>
   </head>
 <!-- ********************************************************************** -->
-  <body bgcolor="#CCCCCC">
+  <body bgcolor="#DDDDDD">
   <script>show(comment(legaleze));</script>
     <form action="localhost:50000" method="get">
 <!-- ********************************************************************** -->
-<h1>Edit Cards</h1>
+<table><tr>
+  <td>card3d</td>
+  <script>show(tag('td', 0, ''))</script>Edit Card Deck</td>
+  <script>show(tag('td', 0, ''))</script>science</td>
+</tr></table>
 <b>
   <input type="submit" value="OK"/> button always sends all cards.<br/>
   <select name="editor">
